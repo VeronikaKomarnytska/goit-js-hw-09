@@ -16,3 +16,19 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.field {
+  float: left;
+  margin-right: 20px;
+}
+.value {
+  font-size: 36px;
+  font-weight: 500;
+}
+.label {
+  display: block;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 10px;
+  font-weight: 500;
+}
