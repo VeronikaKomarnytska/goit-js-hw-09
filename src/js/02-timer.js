@@ -10,7 +10,10 @@ const refs = {
   minutes: document.querySelector('span[data-minutes]'),
   seconds: document.querySelector('span[data-seconds]'),
 };
-console.log(refs.timevalue);
+
+// function onClose(selectedDates) {
+//   console.log(selectedDates[0]);
+// }
 
 const options = {
   enableTime: true,
@@ -21,27 +24,29 @@ const options = {
     console.log(selectedDates[0]);
   },
 };
+console.log(options.defaultDate);
 
 flatpickr('input#datetime-picker', options);
 
 const countdown = {
   isActive: false,
   start() {
+    const startTime = options.defaultDate;
+    // console.log(startTime);
     if (this.isActive) {
       return;
     }
-    const startTime = Date.now();
     this.isActive = true;
-    // console.log(startTime);
-     this.intervalId = setInterval(() => {
-      const currentTime = Date.now();
-      const deadline = new Date('March 19, 2023 23:23:00').getTime();
-      const deltaTime = deadline - currentTime;
+    this.intervalId = setInterval(() => {
+      console.log(startTime);
+      const deadlineDate = options.onClose();
+      const deltaTime = deadlineDate - startTime;
+
       const { days, hours, minutes, seconds } = convertMs(deltaTime);
       updateTimerFace({ days, hours, minutes, seconds });
-    
-          if(deltaTime <= 0) {
-           clearInterval(this.intervalId);
+
+      if (deltaTime <= 0) {
+        clearInterval(this.intervalId);
       }
     }, 1000);
   },
@@ -77,9 +82,8 @@ function addLeadingZero(value) {
 }
 
 function updateTimerFace({ days, hours, minutes, seconds }) {
-    refs.days.textContent = days;
-    refs.hours.textContent = hours;
-    refs.minutes.textContent = minutes;
-    refs.seconds.textContent = seconds;
+  refs.days.textContent = days;
+  refs.hours.textContent = hours;
+  refs.minutes.textContent = minutes;
+  refs.seconds.textContent = seconds;
 }
-
