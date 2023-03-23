@@ -1,9 +1,8 @@
 import flatpickr from 'flatpickr';
-
 import 'flatpickr/dist/flatpickr.min.css';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const refs = {
-  // datetimePicker: document.querySelector('input#datetime-picker'),
   startButton: document.querySelector('button[data-start]'),
   days: document.querySelector('span[data-days]'),
   hours: document.querySelector('span[data-hours]'),
@@ -11,6 +10,7 @@ const refs = {
   seconds: document.querySelector('span[data-seconds]'),
 };
 
+refs.startButton.setAttribute('disabled', true);
 let calendarDate = null;
 
 const options = {
@@ -18,10 +18,18 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  // minDate: Date.now(),
   onClose(selectedDates) {
     calendarDate = selectedDates[0];
     console.log(calendarDate);
+    
+    const startTime = new Date();
+
+    if (calendarDate - startTime > 0) {
+      refs.startButton.removeAttribute('disabled');
+    } else {
+      refs.startButton.setAttribute('disabled', true);
+      Notify.failure('Please choose a date in the future');
+    }
   },
 };
 
@@ -30,12 +38,6 @@ flatpickr('input#datetime-picker', options);
 const countdown = {
   isActive: false,
   start() {
-    //   const startTime = options.defaultDate;
-    //   console.log(startTime);
-    //   if (calendarDate < startTime) {
-    //     refs.startButton.setAttribute('disabled', true)
-    //  }
-
     if (this.isActive) {
       return;
     }
@@ -45,31 +47,22 @@ const countdown = {
       console.log(currentTime);
       const deadlineDate = calendarDate;
       const deltaTime = deadlineDate - currentTime;
-
-      // const { days, hours, minutes, seconds } = convertMs(deltaTime);
+      refs.startButton.setAttribute('disabled', true);
       const time = convertMs(deltaTime);
-      // updateTimerFace({ days, hours, minutes, seconds });
       updateTimerFace(time);
 
       if (deltaTime <= 0) {
         clearInterval(this.intervalId);
         this.isActive = false;
+        return;
       }
+      updateTimerFace(time);
     }, 1000);
   },
 };
 
 refs.startButton.addEventListener('click', () => {
-//  countdown.start();
-
-  const startTime = options.defaultDate;
-  console.log(startTime);
-  if (calendarDate <= startTime) {
-    refs.startButton.setAttribute('disabled', true);
-    window.alert("Please choose a date in the future");
-  } else {
-     countdown.start();
-  }
+  countdown.start();
 });
 
 function convertMs(ms) {
