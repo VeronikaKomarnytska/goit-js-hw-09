@@ -11,49 +11,65 @@ const refs = {
   seconds: document.querySelector('span[data-seconds]'),
 };
 
-// function onClose(selectedDates) {
-//   console.log(selectedDates[0]);
-// }
+let calendarDate = null;
 
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
+  // minDate: Date.now(),
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
+    calendarDate = selectedDates[0];
+    console.log(calendarDate);
   },
 };
-console.log(options.defaultDate);
 
 flatpickr('input#datetime-picker', options);
 
 const countdown = {
   isActive: false,
   start() {
-    const startTime = options.defaultDate;
-    // console.log(startTime);
+    //   const startTime = options.defaultDate;
+    //   console.log(startTime);
+    //   if (calendarDate < startTime) {
+    //     refs.startButton.setAttribute('disabled', true)
+    //  }
+
     if (this.isActive) {
       return;
     }
     this.isActive = true;
     this.intervalId = setInterval(() => {
-      console.log(startTime);
-      const deadlineDate = options.onClose();
-      const deltaTime = deadlineDate - startTime;
+      const currentTime = Date.now();
+      console.log(currentTime);
+      const deadlineDate = calendarDate;
+      const deltaTime = deadlineDate - currentTime;
 
-      const { days, hours, minutes, seconds } = convertMs(deltaTime);
-      updateTimerFace({ days, hours, minutes, seconds });
+      // const { days, hours, minutes, seconds } = convertMs(deltaTime);
+      const time = convertMs(deltaTime);
+      // updateTimerFace({ days, hours, minutes, seconds });
+      updateTimerFace(time);
 
       if (deltaTime <= 0) {
         clearInterval(this.intervalId);
+        this.isActive = false;
       }
     }, 1000);
   },
 };
 
 refs.startButton.addEventListener('click', () => {
-  countdown.start();
+//  countdown.start();
+
+  const startTime = options.defaultDate;
+  console.log(startTime);
+  if (calendarDate <= startTime) {
+    refs.startButton.setAttribute('disabled', true);
+    window.alert("Please choose a date in the future");
+  } else {
+     countdown.start();
+  }
 });
 
 function convertMs(ms) {
