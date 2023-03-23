@@ -32,16 +32,15 @@ formRef.addEventListener('submit', event => {
     // console.log(i);
      firstDelay = delay;
     // console.log(delay);
-    delayWithStep = firstDelay + step;
-    console.log(delayWithStep);
-
-    createPromise(i, delayWithStep)
+    firstDelay += step;
+   
+    createPromise(i, firstDelay)
       .then(({ position, delay }) => {
         
-        Notify.success(`✅ Fulfilled promise ${position} in ${delayWithStep}ms`);
+        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
       .catch(({position, delay}) => {
-        Notify.failure(`❌ Rejected promise ${position} in ${delayWithStep}ms`);
+        Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
       });
 
     formRef.reset();
