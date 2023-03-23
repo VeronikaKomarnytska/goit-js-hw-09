@@ -51,7 +51,7 @@ const countdown = {
       const time = convertMs(deltaTime);
       updateTimerFace(time);
 
-      if (deltaTime <= 0) {
+      if (deltaTime < 0) {
         clearInterval(this.intervalId);
         this.isActive = false;
         return;
