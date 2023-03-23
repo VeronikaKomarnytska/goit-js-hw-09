@@ -25,8 +25,8 @@ formRef.addEventListener('submit', event => {
   const step = Number(formInputs.step.value);
   const amount = Number(formInputs.amount.value);
 
-  let firstDelay = null;
-  let delayWithStep = null;
+  let firstDelay = 0;
+  let delayWithStep = 0;
 
   for (let i = 1; i <= amount; i += 1) {
     // console.log(i);
@@ -40,7 +40,7 @@ formRef.addEventListener('submit', event => {
         
         Notify.success(`✅ Fulfilled promise ${position} in ${delayWithStep}ms`);
       })
-      .catch(({ position, delay }) => {
+      .catch(({position, delay}) => {
         Notify.failure(`❌ Rejected promise ${position} in ${delayWithStep}ms`);
       });
 
