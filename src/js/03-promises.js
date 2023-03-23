@@ -27,15 +27,15 @@ formRef.addEventListener('submit', event => {
 
   let firstDelay = null;
   let delayWithStep = null;
- 
+
   for (let i = 1; i <= amount; i += 1) {
     // console.log(i);
-    firstDelay = delay;
+     firstDelay = delay;
     // console.log(delay);
     delayWithStep = firstDelay + step;
     console.log(delayWithStep);
 
-    createPromise(i, delay)
+    createPromise(i, delayWithStep)
       .then(({ position, delay }) => {
         
         Notify.success(`✅ Fulfilled promise ${position} in ${delayWithStep}ms`);
@@ -47,3 +47,5 @@ formRef.addEventListener('submit', event => {
     formRef.reset();
   }
 });
+
+
