@@ -20,8 +20,7 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     calendarDate = selectedDates[0];
-    console.log(calendarDate);
-    
+
     const startTime = new Date();
 
     if (calendarDate - startTime > 0) {
@@ -44,7 +43,6 @@ const countdown = {
     this.isActive = true;
     this.intervalId = setInterval(() => {
       const currentTime = Date.now();
-      console.log(currentTime);
       const deadlineDate = calendarDate;
       const deltaTime = deadlineDate - currentTime;
       refs.startButton.setAttribute('disabled', true);
