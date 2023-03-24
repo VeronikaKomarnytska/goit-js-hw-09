@@ -1,6 +1,5 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-formRef = document.querySelector('.form');
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
@@ -17,6 +16,7 @@ function createPromise(position, delay) {
   });
 }
 
+formRef = document.querySelector('.form');
 formRef.addEventListener('submit', event => {
   event.preventDefault();
 
