@@ -28,6 +28,7 @@ formRef.addEventListener('submit', event => {
   let firstDelay = delay;
 
   for (let i = 1; i <= amount; i += 1) {
+    console.log(step);
     createPromise(i, firstDelay)
       .then(({ position, delay }) => {
         Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
