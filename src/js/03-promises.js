@@ -16,7 +16,7 @@ function createPromise(position, delay) {
   });
 }
 
-formRef = document.querySelector('.form');
+const formRef = document.querySelector('.form');
 formRef.addEventListener('submit', event => {
   event.preventDefault();
 
