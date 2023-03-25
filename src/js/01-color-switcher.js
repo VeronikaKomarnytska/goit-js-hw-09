@@ -17,6 +17,7 @@ refs.stopButton.addEventListener('click', () => {
   timer.stop();
 });
 
+refs.stopButton.setAttribute('disabled', true);
 const timer = {
   start() {
     refs.startButton.setAttribute('disabled', true);
